@@ -1,0 +1,102 @@
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/loading.scss";
+
+.recharge-page {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #18181a;
+  padding: 5vh 5vw;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .card {
+    width: 80vw;
+    height: 20vh;
+    background-color: #78DB64;
+    border-radius: 1rem;
+    padding: 2vh;
+    box-shadow: 0.8rem 0.8rem 1.2rem -0.6rem rgba($color: #78DB64, $alpha: 0.64);
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      font-size: 0.9rem;
+    }
+
+    &-price {
+      flex: 1;
+      font-weight: 700;
+      font-size: 2.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      letter-spacing: 0.1rem;
+      margin-left: -1.5rem;
+
+      &-icon {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .recharge-box {
+    width: 90%;
+    margin: 4vh 0 2vh;
+
+    .recharge-label {
+      font-weight: 700;
+      display: block;
+
+      .tips {
+        font-weight: 500;
+        font-size: 0.8rem;
+        color: #78DB64;
+      }
+    }
+
+    .at-input {
+      margin: 2vh 0 5vh;
+
+      .at-input__container {
+        padding: 0.5rem 0.5rem;
+        border: 0.1rem solid rgb(168, 168, 168);
+        border-radius: 0.5rem;
+
+        .at-input__input {
+          color: #78DB64;
+        }
+      }
+    }
+
+    .at-button {
+      background-color: #78DB64;
+      color: #fff;
+      border-color: #78DB64;
+      font-weight: 700;
+    }
+
+
+  }
+
+  .tips-wapper {
+    width: 90%;
+    color: #fff;
+    margin-top: 10vh;
+
+    .tips-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .tips-container{
+      margin-top: 1vh;
+      line-height: 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1rem;
+      .highlight{
+        color:#78DB64;
+      }
+    }
+  }
+}

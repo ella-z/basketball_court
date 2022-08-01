@@ -1,38 +1,63 @@
 import React, { Component } from 'react'
 import Taro, { Config } from '@tarojs/taro'
-import { Swiper, SwiperItem, View, Text, Image } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import './index.scss'
+import PosterBar from "../../components/posterBar"
 
-type PageState = {
-  imgList: Array<string>
-}
-
-export default class Index extends Component<any, PageState> {
+export default class Index extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      imgList: [
-        require("../../assets/bg_1.png"),
-        require("../../assets/bg_2.png"),
-        require("../../assets/bg_3.png"),
-      ]
+  }
+  toPage(type: string) {
+    switch (type) {
+      case "ticket": {
+        Taro.navigateTo({ url: '/pages/ticketPage/index' })
+        break;
+      }
+      case "reserve":{
+        Taro.navigateTo({ url: '/pages/reservePage/index' })
+        break;
+      }
+      case "recharge":{
+        Taro.navigateTo({ url: '/pages/rechargePage/index' })
+        break;
+      }
+      default:
+        break;
     }
+
   }
   render() {
-    const { imgList } = this.state
     return (
-      <Swiper
-        circular
-        indicatorDots
-        autoplay>
-        {
-          imgList && imgList.map((item: string, index: number) => {
-            return <SwiperItem key={index}>
-              <Image className="swiper_image" src={item}></Image>
-            </SwiperItem>
-          })
-        }
-      </Swiper>
+      <View className="home-page">
+        <PosterBar />
+        <View className="box-wapper">
+          <View className="box" onClick={this.toPage.bind(this, 'reserve')}>
+            <Text>
+              我要
+           <Text className="highlight-text">
+                包场
+           </Text>
+            </Text>
+          </View>
+          <View className="box" onClick={this.toPage.bind(this, 'ticket')}>
+            <Text>
+              我是
+              <Text className="highlight-text">
+                散客
+              </Text>
+            </Text>
+          </View>
+          <View className="box" onClick={this.toPage.bind(this, 'recharge')}> <Text>
+            我想
+           <Text className="highlight-text">
+              充值
+           </Text>
+          </Text>
+          </View>
+        </View>
+        <View className=""></View>
+      </View>
     )
   }
 }
