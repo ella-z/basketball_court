@@ -6,7 +6,6 @@ import "./index.scss"
 import { AtList, AtListItem, AtButton } from 'taro-ui'
 
 import { getDateTime, getWeekTime } from "../../utils/time"
-import { isBuffer } from "lodash"
 
 type ReserveProps = {
 }
@@ -29,7 +28,7 @@ type ReserveState = {
   viewType: 'list' | 'detail',
   reserveTime: TimeItemState | null,
   imgList: any[],
-  checkedCourtIndex: number | null
+  checkedCourt: number[]
 }
 
 export default class ReservePage extends Component<ReserveProps, ReserveState> {
@@ -101,9 +100,8 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
         url: require("../../assets/court_4.png"),
         status: 'noReserved',
       },
-
       ],
-      checkedCourtIndex: null
+      checkedCourt: []
     }
   }
 
@@ -127,19 +125,27 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
   onBackToList = () => {
     this.setState({
       viewType: 'list',
-      reserveTime: null
+      reserveTime: null,
+      checkedCourt: []
     })
   }
 
   onCheckedCourt = (item: any, index: number) => {
     if (item.status === "reserved") return;
+    const { checkedCourt } = this.state;
+    let newList = checkedCourt;
+    if (checkedCourt.includes(index)) {
+      newList = newList.filter((item: number) => item !== index)
+    } else {
+      newList.push(index);
+    }
     this.setState({
-      checkedCourtIndex: index
+      checkedCourt: newList
     })
   }
 
   render() {
-    const { viewType, reserveDateList, reserveDate, reserveTimeList, reserveTime, imgList, checkedCourtIndex } = this.state
+    const { viewType, reserveDateList, reserveDate, reserveTimeList, reserveTime, imgList, checkedCourt } = this.state
     return <View className="reserve-page">
       <PosterBar />
       {viewType === "list" ?
@@ -179,7 +185,7 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
           </View>
           <View className="court-wapper">
             {imgList.map((item: any, index: number) => {
-              return <View className={`court-box ${checkedCourtIndex === index ? "checked-box" : ''}`} onClick={() => { this.onCheckedCourt(item, index) }}>
+              return <View className={`court-box ${checkedCourt.includes(index) ? "checked-box" : ''}`} onClick={() => { this.onCheckedCourt(item, index) }}>
                 <Image style="width:100%;height:100%" className={`${item.status === 'reserved' ? 'img-reserved' : ''}`} src={item.url} />
                 <Text className="court-index">{index + 1}</Text>
                 {item.status === "reserved" ? <Text className="reserved-text">已预定</Text> : ''}

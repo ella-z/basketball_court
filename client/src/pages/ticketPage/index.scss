@@ -13,33 +13,47 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    // justify-content: center;
     align-items: center;
-    margin-top: 30%;
 
     .ticket-title {
+      margin-top: 10%;
       font-weight: 700;
-      font-size: 2rem;
+      font-size: 3rem;
       letter-spacing: 0.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 2rem;
     }
 
     .ticket-price {
-      font-weight: 700;
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      letter-spacing: 0.2rem;
+      font-size: 1.2rem;
 
-      &-highlight {
-        color: #78DB64;
-      }
+    }
+
+    .member-price {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: #78DB64;
     }
   }
 }
 
-.at-button {
+
+
+.online-button {
   background-color: #78DB64;
   border-color: #78DB64;
   font-weight: 700;
   padding: 0 2rem;
+  margin-top: 3.5rem;
+}
+
+.sum-button {
+  border-color: #78DB64;
+  font-weight: 700;
+  padding: 0 2rem;
+  color: #78DB64;
+  margin-top: 1.5rem;
 }

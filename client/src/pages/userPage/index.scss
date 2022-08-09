@@ -1,0 +1,116 @@
+@import "~taro-ui/dist/style/components/avatar.scss";
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/loading.scss";
+
+.user-page {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #18181a;
+  padding: 3vh 5vw;
+  color: #fff;
+  position: relative;
+
+  .user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .at-avatar {
+      width: 18vw;
+      height: 18vw;
+    }
+
+    .user-text {
+      flex: 2;
+      margin-left: 5vw;
+
+      .user-name {
+        display: block;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .user-tag {
+        display: inline-block;
+        font-size: 0.8rem;
+        background-color: #999;
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.2rem;
+        margin-top: 0.5rem;
+      }
+    }
+
+    .sum {
+      &-title {
+        display: block;
+        font-weight: 700;
+        font-size: 1rem;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .sum-icon {
+          width: 1.2rem;
+          height: 1.2rem;
+          margin-right: 0.2rem;
+        }
+      }
+
+      &-value {
+        display: inline-block;
+        margin-top: 0.3rem;
+
+        .num {
+          font-weight: 700;
+          color: #78DB64;
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+  .order-list-wapper {
+    margin-top: 5vh;
+
+    .order-list {
+      width: 100%;
+      border-radius: 0.5rem;
+      background-color: #26282c;
+      margin-bottom: 2vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0.7rem;
+      font-weight: 700;
+
+      .order-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.2rem;
+      }
+
+      .order-title {
+        flex: 1;
+      }
+
+      .list-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: #78DB64;
+        border-radius: 50%;
+        padding-top: 0.1rem;
+        padding-left: 0.1rem;
+      }
+    }
+  }
+
+  .logout-button {
+    width: 80%;
+    background-color: #26282c;
+    border-color: #26282c;
+    color: rgb(172, 171, 171);
+    margin-top: 10vh;
+  }
+
+}

@@ -1,5 +1,5 @@
 import { Component } from "react"
-import Taro, { Config } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { AtInput, AtButton } from "taro-ui"
 

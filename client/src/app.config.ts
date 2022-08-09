@@ -1,20 +1,23 @@
 export default {
+  entryPagePath:'pages/homePage/index',
   pages: [
-    'pages/index/index',
-    'pages/my/index',
+    'pages/homePage/index',
+    'pages/userPage/index',
     'pages/ticketPage/index',
     'pages/rechargePage/index',
-    'pages/reservePage/index'
+    'pages/reservePage/index',
+    'pages/ticketOrderPage/index',
+    'pages/reserveOrderPage/index'
   ],
   tabBar: {
     custom: true,
     list: [
       {
-        pagePath: 'pages/index/index',
+        pagePath: 'pages/homePage/index',
         text: '主页'
       },
       {
-        pagePath: 'pages/my/index',
+        pagePath: 'pages/userPage/index',
         text: '我的'
       }
     ],

@@ -10,6 +10,7 @@ export default class TicketPage extends Component {
   constructor(props) {
     super(props)
   }
+
   render() {
     return (
       <View className="ticket-page">
@@ -18,10 +19,10 @@ export default class TicketPage extends Component {
           <Text className="ticket-title">
             散客购票
           </Text>
-          <Text className='ticket-price'>
-            <Text className="ticket-price-highlight">￥20</Text>
-          /次</Text>
-          <AtButton>在线支付</AtButton>
+          <Text className="ticket-price">在线支付： <Text className="highlight">￥20</Text>/次</Text>
+          <Text className="member-price">余额支付： <Text className="highlight">￥15</Text>/次</Text>
+          <AtButton className="online-button">在线支付</AtButton>
+          <AtButton className="sum-button">余额支付</AtButton>
         </View>
       </View>
     )

@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '篮球场'
+  navigationBarTitleText: '态度篮球公园'
 }

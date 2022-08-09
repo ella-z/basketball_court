@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Taro, { Config } from '@tarojs/taro'
-import { View } from '@tarojs/components'
 import { AtTabBar } from 'taro-ui'
 import './index.scss'
 
@@ -19,6 +18,15 @@ export default class Index extends Component<any, TabBarState> {
     this.setState({
       current: value
     })
+    if (value === 0) {
+      Taro.switchTab({
+        url: '/pages/homePage/index'
+      })
+    } else {
+      Taro.switchTab({
+        url: '/pages/userPage/index'
+      })
+    }
   }
 
   render() {
