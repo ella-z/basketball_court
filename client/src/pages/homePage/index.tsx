@@ -16,11 +16,11 @@ export default class Home extends Component<HomeProps, HomeState> {
     super(props)
     this.state = {
       icons: {
-        list: require("../../assets/icon/list.png"),
-        court: require("../../assets/icon/court.png"),
-        basketball: require("../../assets/icon/basketball.png"),
-        consume: require("../../assets/icon/consume.png"),
-        phone: require("../../assets/icon/phone.png")
+        list: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/list.png",
+        court: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/court.png",
+        basketball: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/basketball.png",
+        consume: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/consume.png",
+        phone: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/phone.png"
       },
       priceModalRef: React.createRef()
     }

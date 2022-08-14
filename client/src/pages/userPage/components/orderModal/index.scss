@@ -1,0 +1,41 @@
+@import "~taro-ui/dist/style/components/modal.scss";
+
+.at-modal__container {
+  background-color: #18181a;
+  top: 40%;
+
+  .at-modal__header {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #fff;
+  }
+
+  .at-modal__content {
+    color: #fff;
+
+    .info-item {
+      margin-bottom: 1.5rem;
+
+      .title {
+        font-weight: 700;
+      }
+    }
+
+
+  }
+
+  .at-modal__footer {
+    .at-modal__action>button {
+      color: #ccc;
+    }
+
+    .at-modal__action>button:last-child {
+      color: #78DB64;
+    }
+  }
+
+}
+
+.at-modal__overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}

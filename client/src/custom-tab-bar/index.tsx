@@ -14,19 +14,42 @@ export default class Index extends Component<any, TabBarState> {
       current: 0
     }
   }
+
+  urlList = [
+    'pages/homePage/index',
+    'pages/userPage/index',
+  ]
+
   handleClick(value) {
-    this.setState({
-      current: value
-    })
     if (value === 0) {
       Taro.switchTab({
-        url: '/pages/homePage/index'
+        url: '/pages/homePage/index',
+        complete: () => {
+          this.setState({
+            current: value
+          })
+        }
       })
     } else {
       Taro.switchTab({
-        url: '/pages/userPage/index'
+        url: '/pages/userPage/index',
+        complete: () => {
+          this.setState({
+            current: value
+          })
+        }
       })
     }
+  }
+  
+  componentWillMount() {
+    const currentPage = Taro.getCurrentPages()
+    if (currentPage.length > 0) {
+      this.setState({
+        current: this.urlList.indexOf(currentPage[0].route)
+      })
+    }
+
   }
 
   render() {

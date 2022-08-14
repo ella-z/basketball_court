@@ -1,11 +1,10 @@
-import { Component } from "react"
+import React, { Component } from "react"
 import Taro, { Config } from '@tarojs/taro'
-import { View, Text, Picker, Image } from '@tarojs/components'
+import { View, Text, Picker, Image, Button } from '@tarojs/components'
 import PosterBar from "../../components/posterBar"
-import "./index.scss"
-import { AtList, AtListItem, AtButton } from 'taro-ui'
-
+import { AtList, AtListItem, AtButton, AtModal, AtModalHeader, AtModalContent } from 'taro-ui'
 import { getDateTime, getWeekTime } from "../../utils/time"
+import "./index.scss"
 
 type ReserveProps = {
 }
@@ -27,8 +26,11 @@ type ReserveState = {
   reserveTimeList: TimeItemState[],
   viewType: 'list' | 'detail',
   reserveTime: TimeItemState | null,
-  imgList: any[],
-  checkedCourt: number[]
+  halfCourtImgList: any[],
+  allCourtImgList: any[],
+  checkedCourt: number | null,
+  checkCourtType: string,
+  courtTypeOpened: boolean
 }
 
 export default class ReservePage extends Component<ReserveProps, ReserveState> {
@@ -84,7 +86,7 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
       ],
       viewType: 'list',
       reserveTime: null,
-      imgList: [{
+      halfCourtImgList: [{
         url: require("../../assets/court_1.png"),
         status: 'reserved',
       },
@@ -101,7 +103,19 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
         status: 'noReserved',
       },
       ],
-      checkedCourt: []
+      allCourtImgList: [
+        {
+          url: require("../../assets/allCourt_1.png"),
+          status: 'noReserved',
+        },
+        {
+          url: require("../../assets/allCourt_2.png"),
+          status: 'noReserved',
+        },
+      ],
+      checkedCourt: null,
+      checkCourtType: '',
+      courtTypeOpened: false
     }
   }
 
@@ -109,13 +123,23 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
     this.setState({
       reserveDate: this.state.reserveDateList[event.detail.value],
     })
+    this.init();
   }
 
   onToDetail = (item: any) => {
-    console.log(this.state.reserveDate, item)
     this.setState({
-      viewType: 'detail',
-      reserveTime: item
+      courtTypeOpened: true,
+      reserveTime: item,
+    })
+  }
+
+  init() {
+    this.setState({
+      viewType: 'list',
+      reserveTime: null,
+      checkedCourt: null,
+      checkCourtType: '',
+      courtTypeOpened: false,
     })
   }
 
@@ -123,29 +147,31 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
    * 取消选择篮球场
    */
   onBackToList = () => {
-    this.setState({
-      viewType: 'list',
-      reserveTime: null,
-      checkedCourt: []
-    })
+    this.init()
   }
 
   onCheckedCourt = (item: any, index: number) => {
     if (item.status === "reserved") return;
     const { checkedCourt } = this.state;
-    let newList = checkedCourt;
-    if (checkedCourt.includes(index)) {
-      newList = newList.filter((item: number) => item !== index)
-    } else {
-      newList.push(index);
+    if (checkedCourt !== index) {
+      this.setState({
+        checkedCourt: index
+      })
     }
+
+  }
+
+  changeCourtType(type: string) {
+    console.log(type, 111)
     this.setState({
-      checkedCourt: newList
+      viewType: 'detail',
+      checkCourtType: type,
+      courtTypeOpened: false
     })
   }
 
   render() {
-    const { viewType, reserveDateList, reserveDate, reserveTimeList, reserveTime, imgList, checkedCourt } = this.state
+    const { viewType, reserveDateList, reserveDate, reserveTimeList, reserveTime, halfCourtImgList, checkedCourt, checkCourtType, courtTypeOpened, allCourtImgList } = this.state
     return <View className="reserve-page">
       <PosterBar />
       {viewType === "list" ?
@@ -183,9 +209,9 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
               <Text>可预定</Text>
             </View>
           </View>
-          <View className="court-wapper">
-            {imgList.map((item: any, index: number) => {
-              return <View className={`court-box ${checkedCourt.includes(index) ? "checked-box" : ''}`} onClick={() => { this.onCheckedCourt(item, index) }}>
+          <View className={["court-wapper", checkCourtType === "halfCourt" ? "halfCourt-wapper" : ""].join(" ")} >
+            {(checkCourtType === 'halfCourt' ? halfCourtImgList : allCourtImgList).map((item: any, index: number) => {
+              return <View className={`court-box ${checkedCourt === index ? "checked-box" : ''}`} onClick={() => { this.onCheckedCourt(item, index) }}>
                 <Image style="width:100%;height:100%" className={`${item.status === 'reserved' ? 'img-reserved' : ''}`} src={item.url} />
                 <Text className="court-index">{index + 1}</Text>
                 {item.status === "reserved" ? <Text className="reserved-text">已预定</Text> : ''}
@@ -199,7 +225,13 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
           </View>
         </View>
       }
-
-    </View>
+      <AtModal isOpened={courtTypeOpened}>
+        <AtModalHeader>选择场地类型</AtModalHeader>
+        <AtModalContent>
+          <AtButton size="small" onClick={this.changeCourtType.bind(this, 'halfCourt')}>半场</AtButton>
+          <AtButton size="small" onClick={this.changeCourtType.bind(this, 'allCourt')}>全场</AtButton>
+        </AtModalContent>
+      </AtModal>
+    </View >
   }
 }

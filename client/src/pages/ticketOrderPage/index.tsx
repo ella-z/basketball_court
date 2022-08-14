@@ -13,7 +13,7 @@ export default class TicketOrder extends Component<TicketOrderProps, TicketOrder
   constructor(props) {
     super(props)
     this.state = {
-      iconImage: require('../../assets/icon/ticketOne.png')
+      iconImage: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/ticketOne.png"
     }
   }
   render() {

@@ -1,6 +1,7 @@
 @import "~taro-ui/dist/style/components/list.scss";
 @import "~taro-ui/dist/style/components/button.scss";
 @import "~taro-ui/dist/style/components/loading.scss";
+@import "~taro-ui/dist/style/components/modal.scss";
 
 .reserve-page {
   width: 100vw;
@@ -104,7 +105,6 @@
 
     .court-wapper {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       row-gap: 20px;
       column-gap: 20px;
       margin-top: 1vh;
@@ -159,6 +159,14 @@
       }
     }
 
+    .halfCourt-wapper{
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .allCourt-wapper{
+      grid-template-columns: 1fr;
+    }
+
     .button-wapper {
       margin-top: 5vh;
       display: flex;
@@ -183,4 +191,30 @@
       }
     }
   }
+}
+
+.at-modal__container {
+  background-color: #18181a;
+
+  .at-modal__header {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .at-modal__content {
+    .at-button {
+      width: 80%;
+      margin-bottom: 1rem;
+      background-color: #78DB64;
+      color: #fff;
+      border-color: #78DB64;
+      line-height: 2.5rem;
+      height: 2.5rem;
+      font-weight: 700;
+    }
+  }
+}
+
+.at-modal__overlay {
+  background-color: rgba(0, 0, 0, 0.7);
 }

@@ -1,16 +1,20 @@
 export default {
-  entryPagePath:'pages/homePage/index',
+  entryPagePath: 'pages/homePage/index',
   pages: [
-    'pages/homePage/index',
-    'pages/userPage/index',
-    'pages/ticketPage/index',
-    'pages/rechargePage/index',
-    'pages/reservePage/index',
-    'pages/ticketOrderPage/index',
-    'pages/reserveOrderPage/index'
+    "pages/homePage/index",
+    "pages/userPage/index",
+    "pages/ticketPage/index",
+    "pages/rechargePage/index",
+    "pages/reservePage/index",
+    "pages/ticketOrderPage/index",
+    "pages/reserveOrderPage/index",
+    "pages/loginPage/index",
   ],
   tabBar: {
     custom: true,
+    color: "#8a8a8d",
+    selectedColor: "#78DB64",
+    backgroundColor: "#18181a",
     list: [
       {
         pagePath: 'pages/homePage/index',
@@ -21,8 +25,6 @@ export default {
         text: '我的'
       }
     ],
-    'color': '#8a8a8d',
-    'backgroundColor': '#18181a',
   },
   window: {
     backgroundTextStyle: 'light',

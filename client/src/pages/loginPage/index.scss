@@ -1,0 +1,84 @@
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/loading.scss";
+@import "~taro-ui/dist/style/components/checkbox.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
+
+.login-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #18181a;
+  color: #fff;
+  padding: 10vh 10vw 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .title-wapper {
+    text-align: center;
+
+    .logo {
+      display: inline-block;
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      margin-bottom: 1.5rem;
+    }
+
+    .title {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 0.3rem;
+    }
+  }
+
+}
+
+.login-page-bottom {
+  text-align: left;
+
+  .checkbox-wapper {
+    .checkbox-view {
+      transform: scale(0.7, 0.7);
+      line-height: 1rem;
+    }
+
+    .checkbox-tips {
+      font-size: 1rem;
+      color: #999;
+
+      .highlight {
+        color: #78DB64;
+      }
+    }
+
+
+  }
+}
+
+
+
+
+
+.at-button {
+  background-color: #78DB64;
+  border-color: #78DB64;
+  color: #fff;
+  margin-top: 1rem;
+
+  .at-button__text {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2.5rem;
+
+    .icon {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin-right: 0.2rem;
+    }
+  }
+
+}
