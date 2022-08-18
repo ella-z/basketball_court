@@ -1,53 +1,39 @@
-@import "~taro-ui/dist/style/components/button.scss";
-@import "~taro-ui/dist/style/components/loading.scss";
+@import "~taro-ui/dist/style/components/tabs.scss";
 
-.ticket-order-list {
-  width: 100vw;
+.at-tabs {
   min-height: 100vh;
   background-color: #18181a;
-  box-sizing: border-box;
-  padding: 1rem;
-  color: #fff;
 
-  .ticket-order {
-    width: 100%;
-    background-color: #26282c;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.7rem 1rem;
-    border-radius: 0.4rem;
-    margin-bottom: 1rem;
+  .at-tabs__header {
+    background-color: #18181a;
 
-    .ticket-order-text {
-      .title {
-        display: flex;
-        margin-bottom: 1rem;
-        align-items: center;
+    .at-tabs__item {
+      color: #3c3e41;
 
-        .title-text {
-          font-weight: 700;
-          font-size: 1.5rem;
-          letter-spacing: 0.1rem;
-        }
-
-        .icon-image {
-          width: 1.5rem;
-          height: 1.5rem;
-          margin-left: 0.3rem;
-        }
-      }
-
-      .order-id {
-        font-size: 0.8rem;
+      .at-tabs__item-underline {
+        background-color: #78DB64;
       }
     }
 
-    .ticket-order-button {
-      border-color: #78DB64;
-      background-color: #78DB64;
-      color: #fff;
-      margin: 0;
+    .at-tabs__item--active {
+      color: #78DB64;
+
     }
+  }
+
+  .at-tabs__body {
+    .order-list {
+      background-color: #18181a;
+      padding: 0 1.5rem;
+      min-height: 100vh;
+    }
+  }
+
+  .at-tabs__underline {
+    background-color: #3c3e41;
+  }
+
+  .at-tabs-pane {
+    background-color: #18181a;
   }
 }

@@ -1,0 +1,45 @@
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/loading.scss";
+
+.ticket-order {
+  width: 100%;
+  background-color: #26282c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-radius: 0.4rem;
+  margin-top: 1rem;
+  color: #fff;
+
+  .ticket-order-text {
+    .title {
+      display: flex;
+      margin-bottom: 1rem;
+      align-items: center;
+
+      .title-text {
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: 0.1rem;
+      }
+
+      .icon-image {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: 0.3rem;
+      }
+    }
+
+    .order-id {
+      font-size: 0.8rem;
+    }
+  }
+
+  .ticket-order-button {
+    border-color: #78DB64;
+    background-color: #78DB64;
+    color: #fff;
+    margin: 0;
+  }
+}

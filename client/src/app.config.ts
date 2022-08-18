@@ -17,7 +17,7 @@ export default {
     backgroundColor: "#18181a",
     list: [
       {
-        pagePath: 'pages/homePage/index',
+        pagePath: 'pages/homePage/index', 
         text: '主页'
       },
       {

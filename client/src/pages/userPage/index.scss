@@ -21,9 +21,20 @@
       height: 18vw;
     }
 
+    .avatar {
+      width: 15vw;
+      height: 15vw;
+      border-radius: 50%;
+
+      &-img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
     .user-text {
       flex: 2;
-      margin-left: 5vw;
+      margin-left: 3vw;
 
       .user-name {
         display: block;
@@ -37,8 +48,15 @@
         background-color: #999;
         padding: 0.2rem 0.5rem;
         border-radius: 0.2rem;
-        margin-top: 0.5rem;
+        margin-top: 0.2rem;
       }
+    }
+
+    .login-tips {
+      flex: 2;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-left: 1rem;
     }
 
     .sum {
@@ -67,6 +85,16 @@
           color: #78DB64;
           font-size: 1.2rem;
         }
+      }
+    }
+
+    .login-button {
+      border-color: #78DB64;
+      background-color: #78DB64;
+      color: #fff;
+
+      .login-text {
+        padding: 0 1rem;
       }
     }
   }

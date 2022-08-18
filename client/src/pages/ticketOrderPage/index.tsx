@@ -1,36 +1,46 @@
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import { AtButton } from "taro-ui";
+import { AtTabs, AtTabsPane } from "taro-ui";
+import Ticket from "./components/ticket/index"
 
 import "./index.scss"
 
 interface TicketOrderProps { }
 interface TicketOrderState {
-  iconImage: string
+  current: number
 }
 
 export default class TicketOrder extends Component<TicketOrderProps, TicketOrderState> {
   constructor(props) {
     super(props)
     this.state = {
-      iconImage: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/ticketOne.png"
+      current: 0
     }
   }
+
+  handleClick(value: number) {
+    this.setState({
+      current: value
+    })
+  }
+
   render() {
-    const { iconImage } = this.state;
+    const { current } = this.state;
+    const tabList = [{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }]
     return (
-      <View className="ticket-order-list">
-        <View className="ticket-order">
-          <View className="ticket-order-text">
-            <View className="title">
-              <Text className="title-text">散客票</Text>
-              <Image className="icon-image" src={iconImage}></Image>
-            </View>
-            <Text className="order-id">订单号：xxxxx123_daw</Text>
+      <AtTabs current={current} tabList={tabList} onClick={this.handleClick.bind(this)}>
+        <AtTabsPane current={current} index={0} >
+          <View className="order-list">
+            <Ticket></Ticket>
           </View>
-          <AtButton className="ticket-order-button" size="small">使用</AtButton>
-        </View>
-      </View>
+        </AtTabsPane>
+        <AtTabsPane current={current} index={1}>
+          <View className="order-list">标签页二的内容</View>
+        </AtTabsPane>
+        <AtTabsPane current={current} index={2}>
+          <View className="order-list">标签页三的内容</View>
+        </AtTabsPane>
+      </AtTabs>
     )
   }
 }

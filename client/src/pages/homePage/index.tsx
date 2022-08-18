@@ -4,11 +4,13 @@ import { View, Text, Image } from '@tarojs/components'
 import './index.scss'
 import PosterBar from "../../components/posterBar"
 import PriceModal from "./components/priceModal"
+import BookInformation from "../../components/bookInformation/index"
 
 interface HomeProps { }
 interface HomeState {
   icons: any,
-  priceModalRef: any
+  priceModalRef: any,
+  informationRef: any
 }
 
 export default class Home extends Component<HomeProps, HomeState> {
@@ -16,13 +18,15 @@ export default class Home extends Component<HomeProps, HomeState> {
     super(props)
     this.state = {
       icons: {
-        list: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/list.png",
-        court: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/court.png",
-        basketball: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/basketball.png",
-        consume: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/consume.png",
-        phone: "cloud://court-cloud-dev-4gqwp6nu564859aa.636f-court-cloud-dev-4gqwp6nu564859aa-1312772459/icon/phone.png"
+        list: require("../../assets/icons/list.png"),
+        court: require("../../assets/icons/court.png"),
+        basketball: require("../../assets/icons/basketball.png"),
+        consume: require("../../assets/icons/consume.png"),
+        phone: require("../../assets/icons/phone.png"),
+        listNumbers: require("../../assets/icons/listNumbers.png")
       },
-      priceModalRef: React.createRef()
+      priceModalRef: React.createRef(),
+      informationRef: React.createRef()
     }
   }
 
@@ -45,7 +49,7 @@ export default class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  openPriceModal(ref: any) {
+  openModal(ref: any) {
     if (!ref.current) return;
     ref.current.setState({
       isOpened: true
@@ -62,7 +66,7 @@ export default class Home extends Component<HomeProps, HomeState> {
   }
 
   render() {
-    const { icons, priceModalRef } = this.state;
+    const { icons, priceModalRef, informationRef } = this.state;
     return (
       <View className="home-page">
         <PosterBar />
@@ -96,15 +100,20 @@ export default class Home extends Component<HomeProps, HomeState> {
           </View>
         </View>
         <View className="button-wapper">
-          <View className="button" onClick={this.openPriceModal.bind(this, priceModalRef)}>
+          <View className="button" onClick={this.openModal.bind(this, priceModalRef)}>
             <Image className="button-icon" src={icons['list']}></Image>
             价目表
+          </View>
+          <View className="button" onClick={this.openModal.bind(this, informationRef)}>
+            <Image className="button-icon" src={icons['listNumbers']}></Image>
+            订场须知
           </View>
           <View className="button" onClick={this.makePhoneCall.bind(this)}>
             <Image className="button-icon" src={icons['phone']}></Image>
             联系客服
           </View>
         </View>
+        <BookInformation ref={informationRef} />
         <PriceModal ref={priceModalRef} />
       </View>
     )

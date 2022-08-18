@@ -1,8 +1,7 @@
 import { Component } from "react"
 import Taro from '@tarojs/taro'
 import { QRCode } from 'taro-code'
-import { Text } from "@tarojs/components"
-import { AtModal, AtModalHeader, AtModalContent } from "taro-ui"
+import { Text, View } from "@tarojs/components"
 
 import "./index.scss"
 
@@ -28,25 +27,31 @@ export default class CodeIndex extends Component<QRCodeProps, QRCodeState> {
     return Number(Number(number * scale).toFixed(0)); // 返回缩放后的值
   }
 
+  overlayClick = () => {
+    this.setState({
+      isOpened: false
+    })
+  }
+
   render() {
     const { isOpened } = this.state
     const { codeText } = this.props
     return (
-      <AtModal isOpened={isOpened}>
-        <AtModalHeader>
-          <Text className="highlight">态度</Text>
+      <View className={isOpened ? 'code-wapper' : 'none'}>
+        <View className="overlay" onClick={this.overlayClick.bind(this)}></View>
+        <View className="code">
+          <Text className="title">
+            <Text className="highlight">态度</Text>
           篮球公园
-          </AtModalHeader>
-        <AtModalContent>
+          </Text>
           <QRCode
             text={codeText}
             size={this.getPx(510)}
             errorCorrectLevel='M'
             typeNumber={2}
           />
-        </AtModalContent>
-      </AtModal>
-
+        </View>
+      </View>
     )
   }
 }

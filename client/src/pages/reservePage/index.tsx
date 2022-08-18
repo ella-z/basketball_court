@@ -5,6 +5,7 @@ import PosterBar from "../../components/posterBar"
 import { AtList, AtListItem, AtButton, AtModal, AtModalHeader, AtModalContent } from 'taro-ui'
 import { getDateTime, getWeekTime } from "../../utils/time"
 import "./index.scss"
+import { verifyPremission } from "../../utils/premission"
 
 type ReserveProps = {
 }
@@ -127,6 +128,10 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
   }
 
   onToDetail = (item: any) => {
+    const premission = verifyPremission();
+    if (!premission) {
+      return
+    }
     this.setState({
       courtTypeOpened: true,
       reserveTime: item,
@@ -162,7 +167,6 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
   }
 
   changeCourtType(type: string) {
-    console.log(type, 111)
     this.setState({
       viewType: 'detail',
       checkCourtType: type,
