@@ -2,6 +2,9 @@
 @import "~taro-ui/dist/style/components/button.scss";
 @import "~taro-ui/dist/style/components/loading.scss";
 @import "~taro-ui/dist/style/components/modal.scss";
+@import "~taro-ui/dist/style/components/toast.scss";
+@import "~taro-ui/dist/style/components/message.scss";
+@import "~taro-ui/dist/style/components/activity-indicator.scss";
 
 .reserve-page {
   width: 100vw;
@@ -9,6 +12,7 @@
   background-color: #18181a;
 
   .list-view {
+
     .at-list {
       background-color: #26282c;
       border-color: #26282c;
@@ -33,9 +37,15 @@
     .reserve-table {
       padding: 3vh 2vw;
       color: rgb(235, 235, 235);
+      position: relative;
+      min-height: 50vh;
 
       &-title {
         font-weight: 700;
+      }
+      
+      .at-loading__ring{
+        border-color: #78DB64 transparent transparent transparent;
       }
 
       .reserve-table-box {
@@ -111,7 +121,7 @@
 
       .court-box {
         width: 100%;
-        height: 280px;
+        height: 300px;
         border-radius: 0.5rem;
         overflow: hidden;
         position: relative;
@@ -159,11 +169,11 @@
       }
     }
 
-    .halfCourt-wapper{
+    .halfCourt-wapper {
       grid-template-columns: 1fr 1fr;
     }
-    
-    .allCourt-wapper{
+
+    .allCourt-wapper {
       grid-template-columns: 1fr;
     }
 
@@ -184,6 +194,10 @@
 
       .comfirm-button {
         background-color: #78DB64;
+
+        .at-button__text {
+          color: #fff;
+        }
       }
 
       .cancel-button {
@@ -195,6 +209,7 @@
 
 .at-modal__container {
   background-color: #18181a;
+  top: 45%;
 
   .at-modal__header {
     color: #fff;
@@ -217,4 +232,10 @@
 
 .at-modal__overlay {
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+.offline-pay {
+  background-color: #18181a !important;
+  color: #78DB64 !important;
+  border-color: #78DB64 !important;
 }

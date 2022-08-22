@@ -16,6 +16,7 @@ export default class Index extends Component<any, TabBarState> {
     }
   }
 
+
   urlList = [
     'pages/homePage/index',
     'pages/userPage/index',
@@ -50,6 +51,7 @@ export default class Index extends Component<any, TabBarState> {
         current: this.urlList.indexOf(currentPage[0].route)
       })
     }
+
 
   }
 

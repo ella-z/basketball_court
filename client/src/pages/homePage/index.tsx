@@ -5,15 +5,20 @@ import './index.scss'
 import PosterBar from "../../components/posterBar"
 import PriceModal from "./components/priceModal"
 import BookInformation from "../../components/bookInformation/index"
+import { verifyPremission } from "../../utils/premission"
+import { connect, useSelector } from 'react-redux'
+import { add, minus, asyncAdd } from '../../store/actions/counter'
+
+
 
 interface HomeProps { }
 interface HomeState {
   icons: any,
   priceModalRef: any,
-  informationRef: any
+  informationRef: any,
 }
 
-export default class Home extends Component<HomeProps, HomeState> {
+class Home extends Component<HomeProps, HomeState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,11 +31,18 @@ export default class Home extends Component<HomeProps, HomeState> {
         listNumbers: require("../../assets/icons/listNumbers.png")
       },
       priceModalRef: React.createRef(),
-      informationRef: React.createRef()
+      informationRef: React.createRef(),
+
     }
   }
 
+
+
   toPage(type: string) {
+    const premission = verifyPremission();
+    if (!premission) {
+      return
+    }
     switch (type) {
       case "ticket": {
         Taro.navigateTo({ url: '/pages/ticketPage/index' })
@@ -65,7 +77,13 @@ export default class Home extends Component<HomeProps, HomeState> {
     })
   }
 
+  componentDidShow() {
+    //
+  }
+
   render() {
+    // const counter = useSelector<any, any>((state: any) => state.counter)
+    // console.log(counter)
     const { icons, priceModalRef, informationRef } = this.state;
     return (
       <View className="home-page">
@@ -100,6 +118,7 @@ export default class Home extends Component<HomeProps, HomeState> {
           </View>
         </View>
         <View className="button-wapper">
+          <View>{this.state.counter}</View>
           <View className="button" onClick={this.openModal.bind(this, priceModalRef)}>
             <Image className="button-icon" src={icons['list']}></Image>
             价目表
@@ -119,3 +138,21 @@ export default class Home extends Component<HomeProps, HomeState> {
     )
   }
 }
+
+const mapStateToProps = (state: any) => {
+  console.log(state)
+  return {
+    value: state.counter.num
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    add: () => dispatch(add()),
+    dec: () => dispatch(minus()),
+    asyncAdd: () => dispatch(asyncAdd())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

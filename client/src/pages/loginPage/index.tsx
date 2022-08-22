@@ -49,11 +49,15 @@ export default class LoginPage extends Component<any, LoginState> {
         })
         return;
       }
-      console.log(response)
       wx.setStorageSync('phone', result.phoneInfo.phoneNumber)
+      const loginRes: any = await request("login", {
+        phone: result.phoneInfo.phoneNumber
+      })
+      wx.setStorageSync('vipLevel', loginRes.result.user.vipLevel)
       this.setState({
         loading: false
       })
+      Taro.navigateBack()
     } catch (error) {
       console.error('登录报错：', error)
     }

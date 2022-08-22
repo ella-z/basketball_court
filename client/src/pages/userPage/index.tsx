@@ -5,6 +5,7 @@ import { AtButton, AtMessage } from "taro-ui";
 import OrderModal from "./components/orderModal/index"
 import { OrderInfoType } from "./type/index"
 
+
 import "./index.scss"
 
 interface MyProps { }
@@ -49,7 +50,7 @@ export default class User extends Component<MyProps, MyState> {
 
   }
 
-  toLogin(){
+  toLogin() {
     Taro.navigateTo({ url: '/pages/loginPage/index' })
   }
 
@@ -98,6 +99,10 @@ export default class User extends Component<MyProps, MyState> {
       isLogin: true,
       userName: phone.join("")
     })
+  }
+
+  componentDidShow() {
+
   }
 
   render() {
