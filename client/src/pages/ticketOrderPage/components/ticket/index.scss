@@ -13,6 +13,8 @@
   color: #fff;
 
   .ticket-order-text {
+    flex: 1;
+
     .title {
       display: flex;
       margin-bottom: 1rem;
@@ -41,5 +43,16 @@
     background-color: #78DB64;
     color: #fff;
     margin: 0;
+  }
+
+  .usedTips {
+    width: 4rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #F56C6C;
+    border: 0.15rem solid #F56C6C;
+    font-weight: 700;
+    border-radius: 0.4rem;
+    padding: 0.3rem 0;
   }
 }

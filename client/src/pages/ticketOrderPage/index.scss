@@ -1,4 +1,7 @@
 @import "~taro-ui/dist/style/components/tabs.scss";
+@import "~taro-ui/dist/style/components/message.scss";
+@import "~taro-ui/dist/style/components/toast.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
 
 .at-tabs {
   min-height: 100vh;
@@ -24,7 +27,7 @@
   .at-tabs__body {
     .order-list {
       background-color: #18181a;
-      padding: 0 1.5rem;
+      padding: 0 1.5rem 2rem;
       min-height: 100vh;
     }
   }

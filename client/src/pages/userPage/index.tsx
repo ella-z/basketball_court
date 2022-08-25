@@ -4,11 +4,15 @@ import { View, Text, Image } from '@tarojs/components'
 import { AtButton, AtMessage } from "taro-ui";
 import OrderModal from "./components/orderModal/index"
 import { OrderInfoType } from "./type/index"
+import { change } from "../../store/actions/tabBar"
+import { connect } from 'react-redux'
 
 
 import "./index.scss"
 
-interface MyProps { }
+interface MyProps {
+  change: Function
+}
 
 interface MyState {
   avatarUrl: string
@@ -19,7 +23,7 @@ interface MyState {
   isLogin: boolean
 }
 
-export default class User extends Component<MyProps, MyState> {
+class User extends Component<MyProps, MyState> {
   constructor(props) {
     super(props)
     this.state = {
@@ -102,7 +106,7 @@ export default class User extends Component<MyProps, MyState> {
   }
 
   componentDidShow() {
-
+    this.props.change(1)
   }
 
   render() {
@@ -166,4 +170,16 @@ export default class User extends Component<MyProps, MyState> {
       </View>
     )
   }
-}  
+}
+
+const mapStateToProps = () => {
+  return {}
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    change: (selected: Number) => dispatch(change(selected))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

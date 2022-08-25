@@ -1,21 +1,25 @@
-import React, { Component } from 'react'
-import Taro, { Config } from '@tarojs/taro'
+import { Component } from 'react'
+import Taro from '@tarojs/taro'
 import { View } from "@tarojs/components"
 import { AtTabBar } from 'taro-ui'
 import './index.scss'
+import { connect } from 'react-redux'
+
+type TabBarProps = {
+  selected: number
+}
 
 type TabBarState = {
   current: number
 }
 
-export default class Index extends Component<any, TabBarState> {
+class Index extends Component<TabBarProps, TabBarState> {
   constructor(props) {
     super(props)
     this.state = {
       current: 0
     }
   }
-
 
   urlList = [
     'pages/homePage/index',
@@ -51,11 +55,10 @@ export default class Index extends Component<any, TabBarState> {
         current: this.urlList.indexOf(currentPage[0].route)
       })
     }
-
-
   }
 
   render() {
+    const { selected } = this.props
     return (
       <View id="tabbar">
         <AtTabBar
@@ -68,10 +71,22 @@ export default class Index extends Component<any, TabBarState> {
             { title: '我的', iconType: 'user' },
           ]}
           onClick={this.handleClick.bind(this)}
-          current={this.state.current}
+          current={selected}
         />
       </View>
 
     )
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    selected: state.tabBar.selected
+  }
+}
+
+const mapDispatchToProps = () => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

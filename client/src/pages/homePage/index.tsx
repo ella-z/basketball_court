@@ -6,12 +6,12 @@ import PosterBar from "../../components/posterBar"
 import PriceModal from "./components/priceModal"
 import BookInformation from "../../components/bookInformation/index"
 import { verifyPremission } from "../../utils/premission"
-import { connect, useSelector } from 'react-redux'
-import { add, minus, asyncAdd } from '../../store/actions/counter'
+import { connect } from 'react-redux'
+import { change } from "../../store/actions/tabBar"
 
-
-
-interface HomeProps { }
+interface HomeProps {
+  change: Function
+}
 interface HomeState {
   icons: any,
   priceModalRef: any,
@@ -78,12 +78,10 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   componentDidShow() {
-    //
+    this.props.change(0)
   }
 
   render() {
-    // const counter = useSelector<any, any>((state: any) => state.counter)
-    // console.log(counter)
     const { icons, priceModalRef, informationRef } = this.state;
     return (
       <View className="home-page">
@@ -118,7 +116,6 @@ class Home extends Component<HomeProps, HomeState> {
           </View>
         </View>
         <View className="button-wapper">
-          <View>{this.state.counter}</View>
           <View className="button" onClick={this.openModal.bind(this, priceModalRef)}>
             <Image className="button-icon" src={icons['list']}></Image>
             价目表
@@ -139,18 +136,13 @@ class Home extends Component<HomeProps, HomeState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
-  console.log(state)
-  return {
-    value: state.counter.num
-  }
+const mapStateToProps = () => {
+  return {}
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    add: () => dispatch(add()),
-    dec: () => dispatch(minus()),
-    asyncAdd: () => dispatch(asyncAdd())
+    change: (selected: Number) => dispatch(change(selected))
   }
 }
 

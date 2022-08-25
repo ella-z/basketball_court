@@ -4,6 +4,7 @@
   min-height: 100vh;
   background-color: #18181a;
   position: relative;
+  padding-bottom: 15vh;
 
   .box-wapper {
     padding: 5vw;
@@ -36,10 +37,10 @@
   }
 
   .button-wapper {
-    margin-top: 10vh;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    margin-top: 5vh;
 
     .button {
       color: #999;

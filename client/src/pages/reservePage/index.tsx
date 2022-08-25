@@ -6,7 +6,7 @@ import { AtList, AtListItem, AtButton, AtModal, AtModalHeader, AtModalContent, A
 import { getDateTime, getWeekTime, getDateFormat } from "../../utils/time"
 import "./index.scss"
 import { request } from "../../utils/request"
-import { ReserveProps, DateItemState, TimeItemState, ReserveTimeStatus, ReserveTimeValue, ReserveState, CourtItem } from "./type/index"
+import { ReserveProps, TimeItemState, ReserveState, CourtItem } from "./type/index"
 
 
 export default class ReservePage extends Component<ReserveProps, ReserveState> {
@@ -182,6 +182,7 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
         courtNumber,
         courtTime: reserveTime.label,
         payType,
+        orderStatus: 0
       }
       if (payType === 'online') {
         const orderInfo = `${reserveDate.value} ${reserveTime.label} 球场订单`
@@ -209,7 +210,6 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
             'type': 'error',
           })
         }
-        console.log(payResponse)
       } else {
         this.addOrder(data)
       }
@@ -225,7 +225,6 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
   async addOrder(data: any) {
     try {
       const { payType, orderNumber } = data
-      console.log(orderNumber)
       if (payType === 'online' && !orderNumber) {
         this.setState({
           loading: false
@@ -239,13 +238,7 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
         return;
       }
       const orderResponse: any = await request('add_order', data);
-      if (orderResponse.errMsg !== "cloud.callFunction:ok") {
-        this.setState({
-          loading: false
-        })
-        return;
-      }
-      if (!orderResponse.result.success) {
+      if (orderResponse.errMsg !== "cloud.callFunction:ok" || !orderResponse.result.success) {
         this.setState({
           loading: false
         })
