@@ -29,6 +29,16 @@
       background-color: #18181a;
       padding: 0 1.5rem 2rem;
       min-height: 100vh;
+      position: relative;
+
+      .empty-tips {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #999;
+        font-size: 1rem;
+      }
     }
   }
 

@@ -1,8 +1,13 @@
 @import "~taro-ui/dist/style/components/modal.scss";
+@import "~taro-ui/dist/style/components/toast.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
+@import "~taro-ui/dist/style/components/message.scss";
 
 .at-modal__container {
   background-color: #18181a;
   top: 40%;
+  width: 90vw;
+
 
   .at-modal__header {
     font-weight: 700;
@@ -12,9 +17,11 @@
 
   .at-modal__content {
     color: #fff;
+    min-height: 40vh;
 
     .info-item {
       margin-bottom: 1.5rem;
+      font-size: 1.1rem;
 
       .title {
         font-weight: 700;

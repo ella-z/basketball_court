@@ -1,7 +1,7 @@
 export interface OrderInfoType {
   orderId: string,
-  orderTime: string,
+  orderTime?: string,
   phone: string,
-  courtNumber: number[],
+  courtNumber?: number[],
   type: string
 }

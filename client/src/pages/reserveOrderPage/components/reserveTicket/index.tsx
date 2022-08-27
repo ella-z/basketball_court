@@ -12,6 +12,7 @@ interface ReserveTicketProps {
 interface ReserveTicketState {
   iconImage: string
   QRCodeRef: any,
+  codeText: string
 }
 
 export default class ReserveTicket extends Component<ReserveTicketProps, ReserveTicketState> {
@@ -20,19 +21,36 @@ export default class ReserveTicket extends Component<ReserveTicketProps, Reserve
     this.state = {
       iconImage: require("../../../../assets/icons/ticket.png"),
       QRCodeRef: React.createRef(),
+      codeText: ''
     }
   }
 
   toUse(ref: any) {
+    this.setState({
+      codeText: ''
+    })
     if (!ref.current) return;
     ref.current.setState({
       isOpened: true
     })
+    const { _id, type, phone, date, courtTime, courtNumber } = this.props.info;
+    const data: any = {
+      orderId: _id,
+      type,
+      phone,
+      date,
+      courtTime,
+      courtNumber
+    }
+    this.setState({
+      codeText: JSON.stringify(data)
+    })
+
   }
 
   render() {
     const { info, status } = this.props
-    const { iconImage, QRCodeRef } = this.state;
+    const { iconImage, QRCodeRef, codeText } = this.state;
     return (
       <View>
         <View className="reserve-order">
@@ -65,7 +83,7 @@ export default class ReserveTicket extends Component<ReserveTicketProps, Reserve
           </View>
 
         </View>
-        <QRCode codeText='123' ref={QRCodeRef}></QRCode>
+        <QRCode codeText={codeText} ref={QRCodeRef}></QRCode>
       </View>
     )
   }

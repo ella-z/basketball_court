@@ -13,6 +13,7 @@ interface TicketProps {
 interface TicketState {
   iconImage: string
   QRCodeRef: any,
+  codeText: string
 }
 
 export default class TicketOrder extends Component<TicketProps, TicketState> {
@@ -21,19 +22,32 @@ export default class TicketOrder extends Component<TicketProps, TicketState> {
     this.state = {
       iconImage: require("../../../../assets/icons/ticketOne.png"),
       QRCodeRef: React.createRef(),
+      codeText: ''
     }
   }
 
   toUse(ref: any) {
+    this.setState({
+      codeText: ''
+    })
     if (!ref.current) return;
     ref.current.setState({
       isOpened: true
+    })
+    const { _id, type, phone } = this.props.info
+    const data = {
+      orderId: _id,
+      type,
+      phone
+    }
+    this.setState({
+      codeText: JSON.stringify(data)
     })
   }
 
   render() {
     const { info, status } = this.props
-    const { iconImage, QRCodeRef } = this.state;
+    const { iconImage, codeText, QRCodeRef } = this.state;
     return (
       <View>
         <View className="ticket-order">
@@ -49,7 +63,7 @@ export default class TicketOrder extends Component<TicketProps, TicketState> {
               <AtButton className="ticket-order-button" size="small" onClick={this.toUse.bind(this, QRCodeRef)}>使用</AtButton> : <Text className="usedTips">已使用</Text>
           }
         </View>
-        <QRCode codeText='123' ref={QRCodeRef}></QRCode>
+        <QRCode codeText={codeText} ref={QRCodeRef}></QRCode>
       </View>
 
 

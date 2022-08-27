@@ -1,4 +1,4 @@
-export const request = (name: string, data: any) => {
+export const request = (name: string, data?: any) => {
   return new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name,

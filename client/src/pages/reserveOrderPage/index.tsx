@@ -1,51 +1,22 @@
-import React, { Component } from 'react'
-import Taro from "@tarojs/taro"
-import { View, Text, Image } from '@tarojs/components'
+import React, { Component, useState, } from 'react'
+import Taro, { usePullDownRefresh, useReady } from "@tarojs/taro"
+import { View, Text } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtToast } from "taro-ui";
 import ReserveTicket from "./components/reserveTicket/index"
 import { request } from "../../utils/request"
-import { OrderState } from "../../type/index"
 
 import "./index.scss"
 
-interface ReserveOrderProps { }
-interface ReserveOrderState {
-  currentCodeText: string,
-  current: number,
-  listLoading: boolean,
-  unusedOrderList: OrderState[],
-  usedOrderList: OrderState[],
-  overTimeOrderList: OrderState[]
-}
+export default function ReserveOrder() {
+  const [currentPage, setCurrentPage] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [unusedOrderList, setUnusedOrderList] = useState([])
+  const [usedOrderList, setUsedOrderList] = useState([])
+  const [overTimeOrderList, setOverTimeOrderList] = useState([])
 
-export default class ReserveOrder extends Component<ReserveOrderProps, ReserveOrderState> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentCodeText: JSON.stringify({
-        id: '123',
-        date: "2022-08-03",
-        openid: 'xxx',
-        orderId: '111',
-        orderStatus: "0",
-        phone: '13543009092',
-        courtNumber: [1],
-        orderTime: '10:00~12:00',
-        type: 'halfCourt'
-      }),
-      current: 0,
-      listLoading: false,
-      unusedOrderList: [],
-      usedOrderList: [],
-      overTimeOrderList: []
-    }
-  }
-
-  async getOrderList(status: number) {
+  const getOrderList = async (status: number) => {
     try {
-      this.setState({
-        listLoading: true
-      })
+      setLoading(true)
       const data = {
         type: 'courtOrder',
         orderStatus: status
@@ -57,85 +28,75 @@ export default class ReserveOrder extends Component<ReserveOrderProps, ReserveOr
           "type": "error",
           "message": "获取订单失败，请重试！"
         })
-        this.setState({
-          listLoading: false
-        })
+        setLoading(false)
         return
       }
       if (status === 0) {
-        this.setState({
-          unusedOrderList: result.orderList
-        })
+        setUnusedOrderList(result.orderList)
       } else if (status === 1) {
-        this.setState({
-          usedOrderList: result.orderList
-        })
+        setUsedOrderList(result.orderList)
       } else {
-        this.setState({
-          overTimeOrderList: result.orderList
-        })
+        setOverTimeOrderList(result.orderList)
       }
-      this.setState({
-        listLoading: false
-      })
-      console.log(this.state)
+      setLoading(false)
     } catch (error) {
       console.error("获取订单信息错误：" + error)
     }
   }
 
-  toUse(ref: any) {
-    const { currentCodeText } = this.state
-    if (!ref.current || !currentCodeText) return;
-    ref.current.setState({
-      isOpened: true
-    })
+  const handleClick = (value: number) => {
+    setCurrentPage(value)
+    getOrderList(value)
   }
 
-  handleClick(value: number) {
-    this.setState({
-      current: value
-    })
-    this.getOrderList(value)
-  }
+  useReady(() => {
+    getOrderList(currentPage);
+  })
 
-  componentDidMount() {
-    const { current } = this.state;
-    this.getOrderList(current)
-  }
+  usePullDownRefresh(() => {
+    getOrderList(currentPage);
+  })
 
-  render() {
-    const { current, listLoading, unusedOrderList, usedOrderList, overTimeOrderList } = this.state;
-    const tabList = [{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }]
-    return (
-      <View>
-        <AtToast className="toast" isOpened={listLoading} status="loading" duration={0} hasMask={true}></AtToast>
-        <AtTabs current={current} tabList={tabList} onClick={this.handleClick.bind(this)}>
-          <AtTabsPane current={current} index={0} >
-            <View className="reserve-order-list">
-              {
+
+  return (
+    <View>
+      <AtToast className="toast" isOpened={loading} status="loading" duration={0} hasMask={true}></AtToast>
+      <AtTabs current={currentPage} tabList={[{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }]} onClick={handleClick}>
+        <AtTabsPane current={currentPage} index={0} >
+          <View className="reserve-order-list">
+            {
+              (currentPage === 0 && unusedOrderList.length === 0 && loading === false) ?
+                <Text className="empty-tips">暂无数据</Text> :
                 unusedOrderList.map(item =>
                   <ReserveTicket info={item} status={0}></ReserveTicket>
                 )
-              }
-            </View>
-          </AtTabsPane>
-          <AtTabsPane current={current} index={1}>
-            <View className="reserve-order-list">
-              {usedOrderList.map(item =>
-                <ReserveTicket info={item} status={1}></ReserveTicket>
-              )}
-            </View>
-          </AtTabsPane>
-          <AtTabsPane current={current} index={2}>
-            <View className="reserve-order-list">
-              {overTimeOrderList.map(item =>
-                <ReserveTicket info={item} status={2}></ReserveTicket>
-              )}
-            </View>
-          </AtTabsPane>
-        </AtTabs></View>
+            }
+          </View>
+        </AtTabsPane>
+        <AtTabsPane current={currentPage} index={1}>
+          <View className="reserve-order-list">
+            {
+              (currentPage === 1 && usedOrderList.length === 0 && loading === false) ?
+                <Text className="empty-tips">暂无数据</Text> :
+                usedOrderList.map(item =>
+                  <ReserveTicket info={item} status={1}></ReserveTicket>
+                )
+            }
+          </View>
+        </AtTabsPane>
+        <AtTabsPane current={currentPage} index={2}>
+          <View className="reserve-order-list">
+            {
+              (currentPage === 2 && overTimeOrderList.length === 0 && loading === false) ?
+                <Text className="empty-tips">暂无数据</Text> :
+                overTimeOrderList.map(item =>
+                  <ReserveTicket info={item} status={2}></ReserveTicket>
+                )
+            }
+          </View>
+        </AtTabsPane>
+      </AtTabs>
+    </View>
+  )
 
-    )
-  }
 }
