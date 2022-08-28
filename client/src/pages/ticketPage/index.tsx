@@ -8,14 +8,18 @@ import { request } from "../../utils/request"
 import "./index.scss"
 
 interface ticketState {
-  loading: boolean
+  loading: boolean,
+  tipsOpened: boolean,
+  tipsText: string
 }
 
 export default class TicketPage extends Component<any, ticketState> {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false
+      loading: false,
+      tipsOpened: false,
+      tipsText: ""
     }
   }
 
@@ -49,6 +53,10 @@ export default class TicketPage extends Component<any, ticketState> {
               'message': "退款失败，请联系客服",
               'type': 'error'
             })
+            this.setState({
+              tipsText: '退款失败，请联系客服',
+              tipsOpened: true
+            })
             return;
           }
           errorMessage += "，购票金额将原路退回"
@@ -57,10 +65,18 @@ export default class TicketPage extends Component<any, ticketState> {
           'message': errorMessage,
           'type': 'error',
         })
+        this.setState({
+          tipsText: errorMessage,
+          tipsOpened: true
+        })
       } else {
         Taro.atMessage({
           'message': "购票成功！",
           'type': 'success',
+        })
+        this.setState({
+          tipsText: '购票成功！',
+          tipsOpened: true
         })
       }
       this.setState({
@@ -83,6 +99,10 @@ export default class TicketPage extends Component<any, ticketState> {
           'message': '购票失败，请联系客服',
           'type': 'error',
         })
+        this.setState({
+          tipsText: '购票失败，请联系客服',
+          tipsOpened: true
+        })
         return;
       }
       this.setState({
@@ -93,7 +113,7 @@ export default class TicketPage extends Component<any, ticketState> {
         payType,
         phone,
         vipLevel,
-        createTime: new Date().getTime(), 
+        createTime: new Date().getTime(),
         orderStatus: 0
       }
       if (payType === 'online') {
@@ -121,6 +141,10 @@ export default class TicketPage extends Component<any, ticketState> {
             'message': '支付失败，请联系客服',
             'type': 'error',
           })
+          this.setState({
+            tipsText: '支付失败，请联系客服',
+            tipsOpened: true
+          })
         }
       } else {
         this.createOrder(data)
@@ -135,11 +159,12 @@ export default class TicketPage extends Component<any, ticketState> {
   }
 
   render() {
-    const { loading } = this.state
+    const { loading, tipsOpened, tipsText } = this.state
     return (
       <View className="ticket-page">
         <AtToast className="toast" isOpened={loading} status="loading" duration={0} hasMask={true}></AtToast>
         <AtMessage />
+        <AtToast isOpened={tipsOpened} text={tipsText}></AtToast>
         <PosterBar />
         <View className="ticket-wapper">
           <Text className="ticket-title">

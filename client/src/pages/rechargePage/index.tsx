@@ -14,7 +14,9 @@ type RechargeState = {
   balance: number,
   pageLoading: boolean,
   chargeLoading: boolean,
-  orderNumber: number | null
+  orderNumber: number | null,
+  tipsOpened: boolean,
+  tipsText: string
 }
 
 export default class RechargePage extends Component<RechargeProps, RechargeState> {
@@ -25,7 +27,9 @@ export default class RechargePage extends Component<RechargeProps, RechargeState
       balance: 0,
       pageLoading: true,
       chargeLoading: false,
-      orderNumber: null
+      orderNumber: null,
+      tipsOpened: false,
+      tipsText: ""
     }
   }
 
@@ -60,7 +64,11 @@ export default class RechargePage extends Component<RechargeProps, RechargeState
           Taro.atMessage({
             'message': "退款失败，请联系客服",
             'type': 'error'
-          })
+          }),
+            this.setState({
+              tipsText: '退款失败，请联系客服',
+              tipsOpened: true
+            })
           return;
         }
         errorMessage += "，订场金额将原路退回"
@@ -68,10 +76,18 @@ export default class RechargePage extends Component<RechargeProps, RechargeState
           'message': errorMessage,
           'type': 'error',
         })
+        this.setState({
+          tipsText: errorMessage,
+          tipsOpened: true
+        })
       } else {
         Taro.atMessage({
           'message': "充值成功！",
           'type': 'success',
+        })
+        this.setState({
+          tipsText: "充值成功!",
+          tipsOpened: true
         })
         this.getBalance()
       }
@@ -86,6 +102,13 @@ export default class RechargePage extends Component<RechargeProps, RechargeState
   }
 
   async chargePrice() {
+    if (Number(this.state.rechargePrice) < 600) {
+      this.setState({
+        tipsOpened: true,
+        tipsText: '充值金额不能小于600'
+      })
+      return;
+    }
     this.setState({
       chargeLoading: true
     })
@@ -128,6 +151,10 @@ export default class RechargePage extends Component<RechargeProps, RechargeState
         'message': '支付失败，请联系客服',
         'type': 'error',
       })
+      this.setState({
+        tipsText: "支付失败，请联系客服",
+        tipsOpened: true
+      })
     }
   }
 
@@ -146,6 +173,10 @@ export default class RechargePage extends Component<RechargeProps, RechargeState
           'message': '获取个人信息错误，请联系客服',
           'type': "error",
         })
+        this.setState({
+          tipsText: '获取个人信息错误，请联系客服',
+          tipsOpened: true
+        })
         return;
       }
       const { user } = response.result;
@@ -163,9 +194,10 @@ export default class RechargePage extends Component<RechargeProps, RechargeState
   }
 
   render() {
-    const { pageLoading, balance, chargeLoading } = this.state;
+    const { pageLoading, balance, chargeLoading, tipsOpened, tipsText } = this.state;
     return <View className="recharge-page">
       <AtToast isOpened={chargeLoading} status="loading" duration={0} hasMask={true} ></AtToast>
+      <AtToast isOpened={tipsOpened} text={tipsText}></AtToast>
       <AtMessage />
       <View className="card">
         <Text className="card-title">卡余额（元）</Text>

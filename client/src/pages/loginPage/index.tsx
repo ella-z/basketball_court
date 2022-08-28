@@ -12,7 +12,9 @@ interface LoginState {
   logoIcon: string,
   checkValue: boolean,
   loading: boolean,
-  informationRef: any
+  informationRef: any,
+  tipsOpened: boolean,
+  tipsText: string
 }
 
 export default class LoginPage extends Component<any, LoginState> {
@@ -23,7 +25,9 @@ export default class LoginPage extends Component<any, LoginState> {
       logoIcon: require("../../assets/logo.png"),
       checkValue: false,
       loading: false,
-      informationRef: React.createRef()
+      informationRef: React.createRef(),
+      tipsOpened: false,
+      tipsText: ""
     }
   }
 
@@ -46,6 +50,10 @@ export default class LoginPage extends Component<any, LoginState> {
         Taro.atMessage({
           'message': '登录失败',
           'type': "error",
+        })
+        this.setState({
+          tipsText: '登录失败',
+          tipsOpened: true
         })
         return;
       }
@@ -71,6 +79,10 @@ export default class LoginPage extends Component<any, LoginState> {
         'message': '请先阅读并同意订场须知',
         'type': "error",
       })
+      this.setState({
+        tipsText: '请先阅读并同意订场须知',
+        tipsOpened: true
+      })
       return;
     }
   }
@@ -83,9 +95,10 @@ export default class LoginPage extends Component<any, LoginState> {
   }
 
   render() {
-    let { wechatIcon, logoIcon, checkValue, loading, informationRef } = this.state;
+    let { wechatIcon, logoIcon, checkValue, loading, informationRef, tipsText, tipsOpened } = this.state;
     return <View className="login-page">
       <AtMessage />
+      <AtToast isOpened={tipsOpened} text={tipsText}></AtToast>
       <BookInformation ref={informationRef} />
       <AtToast className="toast" isOpened={loading} status="loading" duration={0} hasMask={true}></AtToast>
       <View className="title-wapper">

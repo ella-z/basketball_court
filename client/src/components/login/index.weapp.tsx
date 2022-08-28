@@ -18,7 +18,6 @@ export default class Index extends Component {
   componentDidHide() {}
 
   getLogin = () => {
-    console.log("getLogin")
     Taro.cloud
       .callFunction({
         name: "login",
@@ -27,7 +26,6 @@ export default class Index extends Component {
         }
       })
       .then(res => {
-        console.log(111)
         this.setState({
           context: res.result
         })

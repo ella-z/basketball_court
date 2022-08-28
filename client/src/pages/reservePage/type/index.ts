@@ -46,5 +46,7 @@ export type ReserveState = {
   loading: boolean,
   listLoading: boolean,
   reserveTimeStatusList: ReserveTimeStatus[]
-  reserveTimeValueList: ReserveTimeValue[]
+  reserveTimeValueList: ReserveTimeValue[],
+  tipsOpened: boolean,
+  tipsText: string
 }

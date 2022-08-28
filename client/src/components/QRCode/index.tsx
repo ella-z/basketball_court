@@ -7,6 +7,7 @@ import "./index.scss"
 
 interface QRCodeProps {
   codeText: string
+  onCloseCode?: any
 }
 
 interface QRCodeState {
@@ -30,6 +31,8 @@ export default class CodeIndex extends Component<QRCodeProps, QRCodeState> {
   overlayClick = () => {
     this.setState({
       isOpened: false
+    }, () => {
+      this.props.onCloseCode && this.props.onCloseCode()
     })
   }
 

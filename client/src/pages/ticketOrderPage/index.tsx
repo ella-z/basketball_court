@@ -11,7 +11,7 @@ export default function TicketOrder() {
   const [unusedOrderList, setUnusedOrderList] = useState([])
   const [usedOrderList, setUsedOrderList] = useState([])
   const [loading, setLoading] = useState(false)
-  const currentPage = useRef(0)
+  const [currentPage, setCurrentPage] = useState(0)
 
   const getOrderList = async (status: number) => {
     try {
@@ -28,7 +28,6 @@ export default function TicketOrder() {
           "message": "获取订单失败，请重试！"
         })
         setLoading(false)
-
         return
       }
       if (status === 0) {
@@ -40,41 +39,45 @@ export default function TicketOrder() {
 
     } catch (error) {
       console.error("获取订单信息错误：" + error)
+      setLoading(false)
     }
   }
 
   const handleClick = (value: number) => {
-    currentPage.current = value;
-    getOrderList(value)
+    setCurrentPage(value)
+    Taro.nextTick(() => {
+      getOrderList(value)
+    })
   }
 
   useReady(() => {
-    getOrderList(currentPage.current);
+    getOrderList(currentPage);
   })
 
   usePullDownRefresh(() => {
-    getOrderList(currentPage.current);
+    getOrderList(currentPage);
+    wx.stopPullDownRefresh();
   })
 
   return (
     <View>
       <AtMessage />
       <AtToast className="toast" isOpened={loading} status="loading" duration={0} hasMask={true}></AtToast>
-      <AtTabs current={currentPage.current} tabList={[{ title: '未使用' }, { title: '已使用' }]} onClick={handleClick}>
-        <AtTabsPane current={currentPage.current} index={0} >
+      <AtTabs current={currentPage} tabList={[{ title: '未使用' }, { title: '已使用' }]} onClick={handleClick}>
+        <AtTabsPane current={currentPage} index={0} >
           <View className="order-list">
-            {currentPage.current === 0 && ((unusedOrderList.length !== 0 || loading === true) ?
+            {currentPage === 0 && ((unusedOrderList.length !== 0 || loading === true) ?
               unusedOrderList.map(item =>
-                <Ticket info={item} status={0}></Ticket>
+                <Ticket info={item} status={0} onCloseCode={getOrderList.bind(this, 0)}></Ticket>
               )
               : <Text className="empty-tips">暂无数据</Text>)
             }
           </View>
         </AtTabsPane>
-        <AtTabsPane current={currentPage.current} index={1}>
+        <AtTabsPane current={currentPage} index={1}>
           <View className="order-list">
-            {currentPage.current === 1 && ((usedOrderList.length !== 0 || loading === true) ? usedOrderList.map(item =>
-              <Ticket info={item} status={1}></Ticket>
+            {currentPage === 1 && ((usedOrderList.length !== 0 || loading === true) ? usedOrderList.map(item =>
+              <Ticket info={item} status={1} onCloseCode={getOrderList.bind(this, 0)}></Ticket>
             ) : <Text className="empty-tips">暂无数据</Text>)}
           </View>
         </AtTabsPane>

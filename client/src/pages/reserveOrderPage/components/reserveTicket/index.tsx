@@ -7,7 +7,8 @@ import "./index.scss"
 
 interface ReserveTicketProps {
   info: OrderState,
-  status: number
+  status: number,
+  onCloseCode: any
 }
 interface ReserveTicketState {
   iconImage: string
@@ -83,7 +84,7 @@ export default class ReserveTicket extends Component<ReserveTicketProps, Reserve
           </View>
 
         </View>
-        <QRCode codeText={codeText} ref={QRCodeRef}></QRCode>
+        <QRCode codeText={codeText} ref={QRCodeRef} onCloseCode={this.props.onCloseCode}></QRCode>
       </View>
     )
   }

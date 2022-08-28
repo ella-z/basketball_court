@@ -25,7 +25,9 @@ interface MyState {
   pageLoading: boolean,
   balance: number,
   vipLevel: number,
-  vipList: any[]
+  vipList: any[],
+  tipsOpened: boolean,
+  tipsText: string
 }
 
 class User extends Component<MyProps, MyState> {
@@ -73,15 +75,27 @@ class User extends Component<MyProps, MyState> {
           text: '管理员',
           color: '#fff'
         }
-      ]
+      ],
+      tipsOpened: false,
+      tipsText: ""
     }
   }
 
   toTicketOrder = () => {
+    const phone = wx.getStorageSync('phone')
+    if (!phone) {
+      this.toLogin()
+      return;
+    }
     Taro.navigateTo({ url: '/pages/ticketOrderPage/index' })
   }
 
   toReservetOrder = () => {
+    const phone = wx.getStorageSync('phone')
+    if (!phone) {
+      this.toLogin()
+      return;
+    }
     Taro.navigateTo({ url: '/pages/reserveOrderPage/index' })
   }
 
@@ -132,6 +146,10 @@ class User extends Component<MyProps, MyState> {
             'message': '扫码失败!',
             'type': 'error',
           })
+          this.setState({
+            tipsText: '扫码失败',
+            tipsOpened: true
+          })
         }
       },
     })
@@ -154,6 +172,10 @@ class User extends Component<MyProps, MyState> {
         Taro.atMessage({
           'message': '获取个人信息错误，请联系客服',
           'type': "error",
+        })
+        this.setState({
+          tipsText: '获取个人信息错误，请联系客服',
+          tipsOpened: true
         })
         return;
       }
@@ -194,11 +216,12 @@ class User extends Component<MyProps, MyState> {
   }
 
   render() {
-    const { icons, orderRef, currentOrder, userName, isLogin, pageLoading, balance, vipLevel, vipList } = this.state
+    const { icons, orderRef, currentOrder, userName, isLogin, pageLoading, balance, vipLevel, vipList, tipsOpened, tipsText } = this.state
     const targetVip = vipList.find(item => item.level === vipLevel)
     return (
       <View className="user-page">
         <AtMessage />
+        <AtToast isOpened={tipsOpened} text={tipsText}></AtToast>
         <AtToast className="toast" isOpened={pageLoading} status="loading" duration={0} hasMask={true}></AtToast>
         <View className="user-info">
           <View className="avatar">
@@ -215,21 +238,19 @@ class User extends Component<MyProps, MyState> {
               </View>
           }
           {
-            (isLogin || vipLevel !== 8) ?
-              <View className="sum">
+            (isLogin) ?
+              vipLevel !== 8 ? <View className="sum">
                 <View className="sum-title">
                   <Image className="sum-icon" src={icons['card']}></Image>
                     余额
                   </View>
                 <Text className="sum-value">￥<Text className="num">{balance}</Text>
                 </Text>
-              </View>
+              </View> : ''
               :
               <AtButton circle className="login-button" size="small" onClick={this.toLogin.bind(this)}>
                 <Text className="login-text">登录</Text>
               </AtButton>
-
-
           }
         </View>
         <View className="order-list-wapper">

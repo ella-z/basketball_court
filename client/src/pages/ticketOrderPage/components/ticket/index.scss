@@ -4,16 +4,17 @@
 .ticket-order {
   width: 100%;
   background-color: #26282c;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 1rem;
+  padding: 1rem;
   border-radius: 0.4rem;
   margin-top: 1rem;
   color: #fff;
+  position: relative;
+
 
   .ticket-order-text {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .title {
       display: flex;
@@ -38,21 +39,27 @@
     }
   }
 
-  .ticket-order-button {
-    border-color: #78DB64;
-    background-color: #78DB64;
-    color: #fff;
-    margin: 0;
-  }
+  .status-tips {
+    position: absolute;
+    right: 1rem;
+    top: 1.15rem;
 
-  .usedTips {
-    width: 4rem;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #F56C6C;
-    border: 0.15rem solid #F56C6C;
-    font-weight: 700;
-    border-radius: 0.4rem;
-    padding: 0.3rem 0;
+    .ticket-order-button {
+      border-color: #78DB64;
+      background-color: #78DB64;
+      color: #fff;
+      margin: 0;
+    }
+
+    .usedTips {
+      width: 4rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #F56C6C;
+      border: 0.15rem solid #F56C6C;
+      font-weight: 700;
+      border-radius: 0.4rem;
+      padding: 0.3rem;
+    }
   }
 }

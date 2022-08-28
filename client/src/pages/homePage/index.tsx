@@ -70,7 +70,7 @@ class Home extends Component<HomeProps, HomeState> {
 
   makePhoneCall() {
     Taro.makePhoneCall({
-      phoneNumber: '13727016125',
+      phoneNumber: '15360959330',
       fail: () => {
 
       }

@@ -55,6 +55,7 @@ export default function ReserveOrder() {
 
   usePullDownRefresh(() => {
     getOrderList(currentPage);
+    wx.stopPullDownRefresh();
   })
 
 
@@ -68,7 +69,7 @@ export default function ReserveOrder() {
               (currentPage === 0 && unusedOrderList.length === 0 && loading === false) ?
                 <Text className="empty-tips">暂无数据</Text> :
                 unusedOrderList.map(item =>
-                  <ReserveTicket info={item} status={0}></ReserveTicket>
+                  <ReserveTicket info={item} status={0} onCloseCode={getOrderList.bind(this, 0)}></ReserveTicket>
                 )
             }
           </View>
@@ -79,7 +80,7 @@ export default function ReserveOrder() {
               (currentPage === 1 && usedOrderList.length === 0 && loading === false) ?
                 <Text className="empty-tips">暂无数据</Text> :
                 usedOrderList.map(item =>
-                  <ReserveTicket info={item} status={1}></ReserveTicket>
+                  <ReserveTicket info={item} status={1} onCloseCode={getOrderList.bind(this, 1)}></ReserveTicket>
                 )
             }
           </View>
@@ -90,7 +91,7 @@ export default function ReserveOrder() {
               (currentPage === 2 && overTimeOrderList.length === 0 && loading === false) ?
                 <Text className="empty-tips">暂无数据</Text> :
                 overTimeOrderList.map(item =>
-                  <ReserveTicket info={item} status={2}></ReserveTicket>
+                  <ReserveTicket info={item} status={2} onCloseCode={getOrderList.bind(this, 2)}></ReserveTicket>
                 )
             }
           </View>

@@ -2,7 +2,7 @@ import React, { Component, useEffect } from "react"
 import Taro, { Config } from '@tarojs/taro'
 import { View, Text, Picker, Image, Button } from '@tarojs/components'
 import PosterBar from "../../components/posterBar"
-import { AtList, AtListItem, AtButton, AtModal, AtModalHeader, AtModalContent, AtToast, AtMessage, AtActivityIndicator } from 'taro-ui'
+import { AtList, AtListItem, AtButton, AtModal, AtModalHeader, AtModalContent, AtMessage, AtActivityIndicator, AtToast } from 'taro-ui'
 import { getDateTime, getWeekTime, getDateFormat } from "../../utils/time"
 import "./index.scss"
 import { request } from "../../utils/request"
@@ -80,7 +80,9 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
       courtTypeOpened: false,
       payTypeOpened: false,
       loading: false,
-      listLoading: false
+      listLoading: false,
+      tipsOpened: false,
+      tipsText: ""
     }
   }
 
@@ -161,6 +163,10 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
           'message': '订场失败，请联系客服',
           'type': 'error',
         })
+        this.setState({
+          tipsText: '订场失败，请联系客服',
+          tipsOpened: true
+        })
         console.log("信息缺失:", reserveDate, reserveTime, checkCourtType, checkedCourt, phone)
         return;
       }
@@ -173,7 +179,7 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
       } else {
         courtNumber = checkedCourt === 1 ? [1, 2] : [3, 4]
       }
-      let overTime = new Date(`${reserveDate.value} ${reserveTime.value[1]}`)
+      let overTime = new Date(`${reserveDate.value.replace(/-/g,"/")} ${reserveTime.value[1]}`)
       const data = {
         type: checkCourtType,
         date: reserveDate.value,
@@ -209,6 +215,10 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
             'message': '支付失败，请联系客服',
             'type': 'error',
           })
+          this.setState({
+            tipsText: '支付失败，请联系客服',
+            tipsOpened: true
+          })
         }
       } else {
         this.addOrder(data)
@@ -235,6 +245,10 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
             'type': 'error',
           }
         )
+        this.setState({
+          tipsText: '生成订单失败，请联系客服',
+          tipsOpened: true
+        })
         return;
       }
       const orderResponse: any = await request('add_order', data);
@@ -252,6 +266,10 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
               'message': "退款失败，请联系客服",
               'type': 'error'
             })
+            this.setState({
+              tipsText: '退款失败，请联系客服',
+              tipsOpened: true
+            })
             return;
           }
           errorMessage += "，订场金额将原路退回"
@@ -260,10 +278,18 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
           'message': errorMessage,
           'type': 'error',
         })
+        this.setState({
+          tipsText: errorMessage,
+          tipsOpened: true
+        })
       } else {
         Taro.atMessage({
           'message': "订场成功！",
           'type': 'success',
+        })
+        this.setState({
+          tipsText: '订场成功！',
+          tipsOpened: true
         })
         this.onBackToList()
       }
@@ -285,6 +311,10 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
         Taro.atMessage({
           "type": 'error',
           "message": '日期不能为空'
+        })
+        this.setState({
+          tipsText: '日期不能为空',
+          tipsOpened: true
         })
         return;
       }
@@ -349,9 +379,10 @@ export default class ReservePage extends Component<ReserveProps, ReserveState> {
   }
 
   render() {
-    const { viewType, reserveDateList, reserveDate, reserveDateValue, reserveTimeList, reserveTime, halfCourtList, checkedCourt, checkCourtType, courtTypeOpened, allCourtList, payTypeOpened, loading, listLoading } = this.state;
+    const { viewType, reserveDateList, reserveDate, reserveDateValue, reserveTimeList, reserveTime, halfCourtList, checkedCourt, checkCourtType, courtTypeOpened, allCourtList, payTypeOpened, loading, listLoading, tipsOpened, tipsText } = this.state;
     return <View className="reserve-page">
       <AtMessage />
+      <AtToast isOpened={tipsOpened} text={tipsText}></AtToast>
       <AtToast className="toast" isOpened={loading} status="loading" duration={0} hasMask={true}></AtToast>
       <PosterBar />
       {viewType === "list" ?

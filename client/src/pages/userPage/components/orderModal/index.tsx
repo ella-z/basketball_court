@@ -9,7 +9,9 @@ import "./index.scss"
 
 interface OrderModalState {
   isOpened: boolean,
-  loading: boolean
+  loading: boolean,
+  tipsOpened: boolean,
+  tipsText: string
 }
 
 interface OrderModalProps {
@@ -21,7 +23,9 @@ export default class OrderModal extends Component<OrderModalProps, OrderModalSta
     super(props)
     this.state = {
       isOpened: false,
-      loading: false
+      loading: false,
+      tipsOpened: false,
+      tipsText: ""
     }
   }
 
@@ -64,13 +68,19 @@ export default class OrderModal extends Component<OrderModalProps, OrderModalSta
           "type": "error",
           "message": "核销失败"
         })
+        this.setState({
+          tipsText: '核销失败',
+          tipsOpened: true
+        })
       } else {
         Taro.atMessage({
           "type": "success",
           "message": "核销成功"
         })
         this.setState({
-          isOpened: false
+          isOpened: false,
+          tipsText: '核销成功',
+          tipsOpened: true
         })
       }
       this.setState({
@@ -82,11 +92,12 @@ export default class OrderModal extends Component<OrderModalProps, OrderModalSta
   }
 
   render() {
-    const { isOpened, loading } = this.state
+    const { isOpened, loading, tipsOpened, tipsText } = this.state
     const { currentOrder } = this.props
     return <View>
       <AtMessage />
-      <AtToast isOpened={loading} status="loading" duration={0} hasMask={true} ></AtToast>
+      <AtToast isOpened={loading} status="loading" duration={0} hasMask={true}></AtToast>
+      <AtToast isOpened={tipsOpened} text={tipsText} duration={2000}></AtToast>
       <AtModal isOpened={isOpened}>
         <AtModalHeader>
           订单

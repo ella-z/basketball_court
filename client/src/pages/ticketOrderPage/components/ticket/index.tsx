@@ -8,7 +8,8 @@ import "./index.scss"
 
 interface TicketProps {
   info: OrderState,
-  status: number
+  status: number,
+  onCloseCode: any
 }
 interface TicketState {
   iconImage: string
@@ -58,14 +59,15 @@ export default class TicketOrder extends Component<TicketProps, TicketState> {
             </View>
             <Text className="order-id">订单号：{info._id}</Text>
           </View>
-          {
-            status === 0 ?
-              <AtButton className="ticket-order-button" size="small" onClick={this.toUse.bind(this, QRCodeRef)}>使用</AtButton> : <Text className="usedTips">已使用</Text>
-          }
+          <View className="status-tips">
+            {
+              status === 0 ?
+                <AtButton className="ticket-order-button" size="small" onClick={this.toUse.bind(this, QRCodeRef)}>使用</AtButton> : <Text className="usedTips">已使用</Text>
+            }
+          </View>
         </View>
-        <QRCode codeText={codeText} ref={QRCodeRef}></QRCode>
+        <QRCode codeText={codeText} ref={QRCodeRef} onCloseCode={this.props.onCloseCode}></QRCode>
       </View>
-
 
     )
   }
